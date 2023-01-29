@@ -7,12 +7,16 @@ function App() {
   useEffect(() => {
     console.log("App mounted");
     if (myButtonRef.current) {
-      myButtonRef.current.textContent = child ? "Unmount" : "Mount";
+      myButtonRef.current.textContent = child ? "Delete child" : "Render child";
     }
     return () => {
       console.log("App unmounted");
     };
   }, [child]);
+
+  const hideChild = () => {
+    setChild(null);
+  };
 
   return (
     <>
@@ -20,16 +24,29 @@ function App() {
         type="button"
         ref={myButtonRef}
         onClick={() => {
-          !child ? setChild(<Child />) : setChild(null);
+          !child ? setChild(<Child hideChild={hideChild} />) : setChild(null);
         }}
       ></button>
-      {child ?? <Child />}
+      {child ? <Child hideChild={hideChild} /> : null}
     </>
   );
 }
 
-function Child() {
-  return <div>I'm a child</div>;
+function Child({ hideChild }: { hideChild: () => void }) {
+  useEffect(() => {
+    console.log("Child mounted");
+    return () => {
+      console.log("Child unmounted");
+    };
+  }, []);
+  return (
+    <>
+      <div>I'm a child</div>
+      <button type="button" onClick={hideChild}>
+        Delete me
+      </button>
+    </>
+  );
 }
 
 export default App;
