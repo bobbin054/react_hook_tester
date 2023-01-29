@@ -27,7 +27,7 @@ function App() {
         ref={myButtonRef}
         onClick={handleButtonClick}
       ></button>
-      {child ? child : null}
+      <div>{child ? child : null}</div>
     </>
   );
 }
