@@ -27,7 +27,7 @@ function App() {
         ref={myButtonRef}
         onClick={handleButtonClick}
       ></button>
-      {child ? <Child hideChild={handleHideChild} /> : null}
+      {child ? child : null}
     </>
   );
 }
