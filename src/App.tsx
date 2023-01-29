@@ -4,6 +4,12 @@ import "./App.css";
 function App() {
   const [child, setChild] = useState<JSX.Element | null>(null);
   const myButtonRef = useRef<HTMLButtonElement>(null);
+  const handleButtonClick = () => {
+    setChild((child) => (child ? null : <Child hideChild={handleHideChild} />));
+  };
+  const handleHideChild = () => {
+    setChild(null);
+  };
   useEffect(() => {
     console.log("App mounted");
     if (myButtonRef.current) {
@@ -14,20 +20,14 @@ function App() {
     };
   }, [child]);
 
-  const hideChild = () => {
-    setChild(null);
-  };
-
   return (
     <>
       <button
         type="button"
         ref={myButtonRef}
-        onClick={() => {
-          !child ? setChild(<Child hideChild={hideChild} />) : setChild(null);
-        }}
+        onClick={handleButtonClick}
       ></button>
-      {child ? <Child hideChild={hideChild} /> : null}
+      {child ? <Child hideChild={handleHideChild} /> : null}
     </>
   );
 }
